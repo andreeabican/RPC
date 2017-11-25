@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 	fclose(input_fp);
 	fclose(output_fp);
 
-	xdr_free(xdr_game_result, result);
+	xdr_free((xdrproc_t)xdr_game_result, (void *)result);
 	clnt_destroy(cl);
 
 	return 0;
