@@ -1,0 +1,57 @@
+Bican Andreea Sanziana, 341C3
+Tema 1 - SPRC
+
+
+
+			Readme
+
+
+
+Cuprins:
+
+	1. Detalii implementare
+	2. Descrierea clientului
+	3. Descrierea serverului
+	4. Continut arhiva
+	5. Rulare tema
+
+
+1. Detalii implementare:
+
+	Implementarea temei a pornit de la laboratorul 2. Clientul executa la server programul GAMEPROG care contine metoda find_primes. Pentru a putea trimite datele intre cele 2 entitati am definit 2 structuri in fisierul game.x. Structura game_request incapsuleaza datele clientului pentru joc, adica valoarea citita din fisier. Serverul foloseste structura game_result pentru a trimite datele catre client. Serverul reprezinta datele in structura folosind campurile a si b in cazul in care numarul este prim si de forma 4*k + 1, si campurile r,s pentru cazul contrar. Diferenta este data de variabila match. In cazul in care match este setat pe 1 atunci numarul poate fi reprezentat ca suma de 2 patrate perfecte. In cazul in care match = 0. inseamna ca nu a putut fi facuta descompunerea pentru valoarea curenta si a fost cautata o valoare mai mica care respecta regula.
+
+
+2. Descrierea clientului:
+
+	Clientul primeste ca argument in linia de comanda numele fisierului de intrare si adresa serverului la care trebuie sa se conecteze prin protocolul RPC. Etapele clientului:
+	- creaza un client generic care se conecteaza la adresa serverului si stabileste sa comunice cu acesta prin protocolul de transport TCP. In aceasta conexiune clientul stabileste sa ruleze programul remote GAMEPROG cu numarul versiunii GAMEVERS.
+	- descried fisierul de input dat ca argument in linia de comanda pentru a citi date din el.
+	- deschide fisierul de output cu numele "output" pentru a scrie rezultatele in el rezultatele primite de la server.
+	- cat timp mai sunt date in fiser, clientul le citeste, incapsuleaza datele necesare instructura game_request, apeleaza metoda find_primes care se afla pe server si asteapta rezultatul pe care il scrie in fisierul "output" pe cate o linie noua in formatul urmator:
+		- in cazul in care numarul este prim si de forma (4*k + 1) formatul este YES a b
+		- in cazul in care numarul nu este prim formatul este NO m s r
+	- dupa terminarea procesarii tuturor numerelor, clientul inchide fisierele deschise si elibereaza conexiunea cu serverul.
+
+
+3. Descrierea serverului:
+
+	Functionalitatea principala a serverului este data prin implementarea metodei "find_primes". Aceasta extrage din requestul clientului numarul pe care trebuie sa-l descompuna. In cazul in care numarul primit este prim si de forma 4*k + 1, acesta este descompus ca suma a doua patrate perfecte. In caz contrar, caut primul numar prim de forma 4*k + 1 mai mic decat numarul primit si il descompun pe acesta.
+	Descompunearea ca suma a doua patrate perfecte am realizat-o folosind un o iteratie (i) prin toate valorile de la 1 pana la sqrt(nr). Pentru fiecare valoare verific daca nr - i*i este patrat perfect atunci scriu rezutatul in raspunsul pentru client.
+
+
+4.Continut arhiva:
+
+	- p_server.c - implementarea serverului
+	- p_client.c - implementarea clientului
+	- makefile - makefile pentru compilarea clientului si a serverului atat pe Linux cat si pe Mac OS
+	- game.x - descrierea programului pe care clientul il apeleaza remote cat si structurile de date folosite in comunicarea dintre client si server.
+
+
+5. Rulare tema:
+	Compilare:
+		make
+	Rularea serverului:
+		./server
+	Rularea clientului:
+		./client host fisier_input
+
