@@ -1,4 +1,6 @@
 #include <rpc/rpc.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "game.h" 
 
 int main(int argc, char *argv[])
@@ -33,7 +35,7 @@ int main(int argc, char *argv[])
 		if (result->match == 1)
 			fprintf(output_fp, "YES %ld %ld \n", result->a, result->b);
 		else
-			fprintf(output_fp, "NO %ld %ld %ld\n", result->m, result->r, result->s);
+			fprintf(output_fp, "NO %ld %ld %ld\n", result->m, result->a, result->b);
 	}
 
 	fclose(input_fp);

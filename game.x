@@ -1,13 +1,12 @@
 struct game_request{
 	long n;
 };
+
 struct game_result{
 	int match;
 	long a;
 	long b;
 	long m;
-	long s;
-	long r;
 };
 
 program GAMEPROG{
